@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title> App 6 (Encrypt/Decrypt)</title>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="../kern/esa.css" />
+    <script type="text/javascript" src="../kern/js/bib.js"></script>
+
+    <script type="text/javascript" src="js/my_bib.js"></script>
+    <script type="text/javascript" src="js/welt.js"></script>
+    <script type="text/javascript" src="js/rng.js"></script>
+    <script type="text/javascript" src="js/e2e.js"></script>
+    <script type="text/javascript" src="js/tea-block.js"></script>
+
+    <script>
+        window.onload = function() {
+            //if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+        };
+    </script>
+    <style media="screen">
+        #settings {
+            width: 26%;
+            border: none;
+            float: left;
+            padding: 2%;
+            display: inline;
+
+        }
+
+        p {
+            margin: 0 !important;
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        fieldset input {
+            display: inline;
+            float: left;
+        }
+
+        form input[type=radio] {
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+            float: left;
+        }
+
+        #drawing_canvas {
+            float: left;
+        }
+
+        .outputinput {
+            position: relative;
+            width: 66%;
+            padding: 2%;
+
+            display: inline-block;
+            clear: both;
+        }
+
+        .outputinput textarea {
+            width: 100%;
+            height: 100px;
+        }
+        .erklaerung {
+            float: none;
+            clear: both;
+            display: block;
+            padding: 2%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <h1> Encrypt/Decrypt App</h1>
+
+
+
+    <form action="#" onsubmit="return false;">
+        <div id="settings">
+
+            <select size="1" onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){show(e);}">
+                <option value='void(0)'>Beispiel Texte</option>
+                <optgroup label="unverschlüsselt">
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("lorem-ipsum")), pw:"lorem", caesar:1});'> Lorem Ipsum </option>
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("char_von_1_bis_255")), pw:"test1234", tea:1});'> Char von 1 bis 255 </option>
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("azAZ123öüä")), pw:"test1234", caesar:1});'> a-z A-Z 123 öüä</option>
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("beispiel_bachmann")), pw:"test1234", caesar:1});'>Bachmann Beispiel Seite</option>
+
+
+                </optgroup>
+                <optgroup label="verschlüsselt">
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("lorem-ipsum-encoded")), pw:"lorem", caesar:1});'> Lorem Ipsum </option>
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("char_von_1_bis_255-encoded")), pw:"test1234", tea:1});'> Char von 1 bis 255 </option>
+                    <option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("azAZ123öüä-encoded")), pw:"test1234", caesar:1});'> a-z A-Z 123 öüä</option>
+
+                </optgroup>
+            </select>
+            <br> Passwort:
+            <input type="text" id="pw" value='test1234' />
+            <br>
+            Verschlüsselungsverfahren:
+            <br style="clear:left;">
+            <input type="radio" id="caesar" name="anwendeverfahren" checked="checked" />Caesar-Cipher
+
+            <br>
+            <input type="radio" id="tea" name="anwendeverfahren" />Tiny Encryption Algorithm
+            <br>
+            <br>
+            <a href="javascript:void(0)" class="button" onclick="e2e.encrypt();">Encrypt</a>
+            <a href="javascript:void(0)" class="button" onclick="e2e.decrypt();">Decrypt</a>
+            <br>
+            <br>
+            <a href="javascript:void(0)" class="button" onclick="e2e.my_xhtml_crypt('ta0', 'ta1');">Encrypted Website</a>
+            <a href="javascript:void(0)" class="button" onclick="dom.popup(dom.get_dom_str('ta1'));">Show Encrypted Website</a>
+            <br>
+        </div>
+        <div class="outputinput">
+            <p>Input</p>
+            <textarea id="ta0">Magna massa condimentum volutpat laoreet rutrum ipsum proin. Fames magna fusce aenean suspendisse augue convallis. Magna proin. Fusce velit rhoncus diam id pulvinar amet vel nam sit vivamus id fames at. Velit ipsum nostra class scelerisque eleifend amet. Felis fames urna integer duis pede iaculis a suspendisse. Fames proin dis viverra id vulputate vitae. Etiam magna augue cum class nonummy. Risus vitae a nisi. Nulla justo urna nisl sit eu tellus fusce. Neque fames eros rhoncus. Felis proin dictumst lorem duis dui turpis.</textarea> &nbsp;
+            <br style="clear:left;">
+
+            <a href="javascript:void(0)" onclick="var t=document.getElementById('ta0').value;document.getElementById('ta0').value=document.getElementById('ta1').value;document.getElementById('ta1').value=null;" > ↑ </a>
+            <br style="clear:left;">
+            <br>
+            <p>Output</p>
+            <textarea id="ta1"></textarea> &nbsp;
+        </div>
+    </form>
+
+
+
+
+<div class="erklaerung">
+
+    <p>
+        Die App baut aus Input-Text (TA0), dem Passwort und einem gewählten Verschlüsselungsalgorithmus (Caesar-Chiffre oder Tiny Encryption Algorithm) eine Verschlüsselte Ressource. Implementiert wurde der Tiny Encryption Algorithm in JavaScript von <a href="https://github.com/chrisveness/crypto/blob/master/tea-block.js" target="_blank">Chris Veness</a> und steht unter der MIT License zur freien Verfügung. Dankeschön an Chris!
+    </p>
+    <p>Es werden keine Daten gespeichert oder weitergereicht. Die Generierung der Keys und des Verschlüsselten Textes erfolgt ausschließlich lokal im Browser.</p>
+
+</div>
+
+</body>
+
+</html>

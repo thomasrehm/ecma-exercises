@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <title> App 2</title>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../kern/esa.css" />
+  <script type="text/javascript" src="js/my_bib.js"></script>
+</head>
+
+<body>
+  <h1> App 2</h1>
+    <noscript class="rot">Diese Seite braucht Browser mit aktivierten JavaScript</noscript>
+      <h2>Link-Extractor</h2>
+        <form action="#" onsubmit="return false;">
+
+          <div style="padding:0.3em;">
+            <!-- vor der "TA0" -->
+
+            <!-- <input class="float_left" id="GETURL"></input> -->
+            <!-- <a class="float_left button" style="width:200px;"href="javascript:void(0)" onclick="dom.load_url('GETURL');">&nbsp; Load url &nbsp;</a> -->
+            <a class="float_eft button" style="width:200px;"href="javascript:void(0)" onclick="dom.extract_a_tag('TA1', 'TA0');">&nbsp; extrahiere Links aus TA1 &nbsp;</a>
+
+
+
+          </div>
+
+          <textarea id="TA0" cols="90" rows="6" style="width:99%;">
+          </textarea> &nbsp;
+
+          <textarea id="TA1" cols="90" rows="6" style="width:99%;">
+<h1> Teste script-Code </h1>
+<a href="#">Palimpalim.de</a>
+          </textarea>
+        </form>
+<!--
+// =================== NACHFOLGEND UNGEPRÜFT später ...
+
+// get_node_list(selektoren_str, parent_ele)// DOM-List-Elemente vom Selektoren-String
+// Bsp: var node_list = get_node_list(selektoren_str, parent_ele);
+
+function get_node_list(selektoren_str, parent_ele) { return (parent_ele || doc).querySelectorAll(selektoren_str); }
+
+// get_dom_strings(node_list)
+// tue aus einer DOM-Liste die Strings in Array-Elemente
+// Bsp: var string_arr = get_dom_strings(selektoren_str, parent_ele);
+
+function get_dom_strings(node_list) {
+  var i, tn, node, r = []; // r = Rückgabe-Array der innerHTML-Strings
+  for (i = 0; i < node_list.length; i += 1) {
+    node = node_list[i]; tn = node.tagName.toLowerCase();
+    if (tn === 'input' || tn === 'textarea') { r.push(node.value); } else { r.push(node.innerHTML); }
+  } return r;
+}
+
+// set_dom_strings(nodes_list, string_arr) // put Array-Strings als innerHTML in die DOM-Liste
+
+function set_dom_strings(nodes_list, string_arr) {
+  var i, tn, str, node;
+  if (nodes_list.length <= string_arr.length) { show("ERR: string_arr.length !== nodes_list.length"); return; }
+  for (i = 0; i < string_arr.length; i += 1) {
+    try {
+      node = nodes_list[i]; tn = node.tagName.toLowerCase(); str = string_arr[i];
+      if (tn === 'input' || tn === 'textarea') { node.value = str; } else { node.innerHTML = str; }
+    } catch (e) { show("ERR: nodes_list, string_arr"); }
+  }
+}
+// ====================
+-->
+
+  </body>
+
+</html>

@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <title> Ed-App </title>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <meta name="description" lang="de" content="ECMAScript-Praktikum: Ed-App=Editor-Applikation, Web-Etwicklungs-Umgebung, Experimentiee mit Zeichenketten, Template-Sammlung für HTML-, CSS-, ECMAScript-Schnipsel )" />
+  <link rel="stylesheet" media="screen" href="../kern/esa.css" />
+  <script type="text/javascript" src="js/my_bib.js"></script>
+  <style>
+    textarea {
+      border: 1px solid #ddd;
+      width: 98%;
+      resize: vertical;
+    }
+  </style>
+  <script>
+    window.onload = function() {
+      // Ausführen, wenn Seite gerendet ist:
+      if (top["bib"]) {
+        top.bib.dl({
+          doc: document,
+          id: 'DL1',
+          show_idx: [0]
+        });
+      }
+    };
+
+    // Hier kommt mein globaler ECMAScript-Code:
+    var win = window,
+      doc = win.document,
+      popup_win = null,
+      gespeicherte_strings = {};
+
+    // Funktionen für locale Speicherungen ( Daten, Strings, Objekte, usw.)
+    function get_store_str(key) {
+      return gespeicherte_strings[key];
+    }
+
+    function set_store_str(key, val) {
+      gespeicherte_strings[key] = val;
+    }
+
+    // Templates local speichern
+    set_store_str('HTML5 (einfaches Muster)',
+      '%3C%21DOCTYPE%20html%3E%0A%3Chtml%20lang%3D%22de%22%3E%0A%3Chead%3E%0A%3Ctitle%3E%B7title%3C/title%3E%0A%3Cmeta%20charset%3D%22UTF-8%22%20/%3E%0A%3Cmeta%20name%3D%22robots%22%20content%3D%22noindex%22%20/%3E%0A%3Clink%20rel%3D%22stylesheet%22%20href%3D%22../kern/esa.css%22%20/%3E%0A%3Cstyle%3E/*style*/%3C/style%3E%0A%3Cscript%3E/*script*/%3C/script%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%0A%3Ch1%3E%B7h1-Tag%3C/h1%3E%0A%0A%3Cp%20class%3D%22p%22%3E%B7p-Tag%3C/p%3E%0A%0A%3Cul%20class%3D%22ul%22%3E%3Cli%3E%20ul-li-item%201%0A%3C/li%3E%3Cli%3E%20ul-li-item%202%0A%3C/li%3E%3Cli%3E%20ul-li-item%203%0A%3C/li%3E%3C/ul%3E%20%0A%0A%3Cp%3E%20Validiere%20mit%20http%3A//validator.w3.org/check%20%3C/p%3E%0A%0A%0A%3C/body%3E%0A%3C/html%3E'
+    );
+    set_store_str("noch einfacheres HTML5 Beispiel",
+      "%3C%21DOCTYPE%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%3Ctitle%3EPage%20Title%3C/title%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%0A%3Ch1%3EThis%20is%20a%20Heading%3C/h1%3E%0A%3Cp%3EThis%20is%20a%20paragraph.%3C/p%3E%0A%0A%3C/body%3E%0A%3C/html%3E");
+    set_store_str("CSS3 Gradient",
+      "%3C%21DOCTYPE%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%3Cstyle%3E%0Ahtml%7Bheight%3A%20100%25%3B%7D%0Abody%20%7B%0A%20%20background%3A%20linear-gradient%28to%20left%20top%2C%20blue%2C%20red%29%20no-repeat%3B%0A%20%20background-size%3A%20cover%3B%0A%7D%0A%3C/style%3E%0A%3Ctitle%3EEin%20einfacher%20Farbverlauf%20im%20Hintergrund%3C/title%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%0A%3Ch1%3EEin%20einfacher%20Farbverlauf%20im%20Hintergrund%3C/h1%3E%0A%3Cp%3ETolle%20Sache.%3C/p%3E%0A%0A%3C/body%3E%0A%3C/html%3E"
+    );
+    set_store_str("CSS3 Border Radius",
+      "%3C%21DOCTYPE%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%3Cstyle%3E%0Ah1%7B%0A%20%20border%3A%205px%20dashed%20green%3B%0A%20%20border-radius%3A%2010px%3B%0A%7D%0A%3C/style%3E%0A%3Ctitle%3EEin%20einfacher%20Farbverlauf%20im%20Hintergrund%3C/title%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%0A%3Ch1%3EH1%20mit%20Rahmen%20und%20Runden%20Ecken%3C/h1%3E%0A%3Cp%3ETolle%20Sache.%3C/p%3E%0A%0A%3C/body%3E%0A%3C/html%3E"
+    );
+    set_store_str("Text im Script-Tag", "Das%20ist%20ein%20Script-Tag%3A%3Cbr%3E%0A%3Cscript%3Edocument.write%28%22Dies%20ist%20Text%20im%20Script-Tag.%22%29%3B%3C/script%3E");
+    set_store_str("Confirm Beispiel",
+      "Es%20popt%20ein%20Confirm-Window%20auf%21%0A%3Cbr%3E%0A%0A%3Cscript%3E%0Avar%20txt%3B%0Avar%20q%20%3D%20confirm%28%22Dr%FCcke%20einen%20Knopf%22%29%3B%0Aif%20%28q%20%3D%3D%20true%29%7B%0A%20%20txt%20%3D%20%22Es%20wurde%20OK%20gedr%FCckt%22%3B%0A%7D%20else%20%7B%0A%20%20txt%20%3D%20%22Es%20wurde%20Abbrechen%20gedr%FCckt%22%3B%0A%7D%0Adocument.write%28txt%29%3B%0A%3C/script%3E"
+    );
+
+    // DOM-Zugriffe
+    // get str vom DOM-Elementes; Bsp: var id = "my_id", str = get_dom_str(id);
+    function get_dom_str(id) {
+      var node = doc.getElementById(id),
+        tn = node.tagName.toLowerCase(),
+        r = "";
+      if (tn === 'input' || tn === 'textarea') {
+        r = node.value;
+      } else {
+        r = node.innerHTML;
+      }
+      return r; // liefert String zurück
+    }
+
+    // DOM-Zugriffe
+    // set innerHTML-str des DOM-Elementes;  Bsp: var id = "my_id", str="Hallo Welt", set_dom_str(id,str);
+    function set_dom_str(id, str) {
+      var node = doc.getElementById(id),
+        tn = node.tagName.toLowerCase();
+      if (tn === 'input' || tn === 'textarea') {
+        node.value = str;
+      } else {
+        node.innerHTML = str;
+      }
+    }
+
+    // Einfache Anzeige von str in alert-Box
+    function show(str) {
+      win.alert(str);
+    }
+
+    // Zeige str als Vorschau im popup-Fenster an
+    // Bsp:  popup(str) oder popup(null,url)
+    function popup(str, url, o) {
+      o = o || {
+        top: 20,
+        left: 150,
+        width: 800,
+        height: 600
+      };
+      flags = "resizable=yes,scrollbars=yes,top=" + o.top + ",left=" + o.left + ",width=" + o.width + ",height=" + o.height;
+      if (popup_win) {
+        popup_win.close();
+      }
+      popup_win = null;
+      if (url) {
+        popup_win = window.open(url, "popup", flags);
+      } else { // global: popup_win
+        popup_win = win.open("", "popup", flags);
+        popup_win.document.write(str);
+      }
+      if (popup_win.opener) {
+        popup_win.opener = self;
+      }
+      if (popup_win.focus) {
+        popup_win.focus();
+      }
+      return popup_win;
+    }
+
+    function do_set_store_str(id_src, id_dst) {
+      var pre = 'set_store_str("mein-str-name","',
+        post = '");',
+        txt = get_dom_str(id_src);
+      set_dom_str(id_dst, pre + escape(txt) + post);
+    }
+  </script>
+</head>
+
+<body>
+  <noscript class="rot">Diese Seite braucht Browser mit aktivierten JavaScript</noscript>
+
+
+  <h1> Ed-App (Editor) </h1>
+
+  <dl id="DL1">
+    <dt> Template-Editor, Text-Manipulationen
+      <dfn> Ed-App </dfn>
+    </dt>
+    <dd>
+      <form action="#" onsubmit="return false;">
+
+        <div style="padding:0.3em;">
+          <!-- vor der "TA0" -->
+          <a class="float_left button" href="javascript:void(0)" onclick="popup(get_dom_str('TA0'));">&nbsp; Vorschau &nbsp;</a>
+
+
+          <select size="1" class="float_left overflow_hidden" style="width:160px;" onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){show(e);}">
+            <option value="void(0)"> String-Funktionen </option>
+            <optgroup label="escape()/unescape()">
+              <option value="set_dom_str('TA1',escape(get_dom_str('TA0')))"> TA1 := escape('TA0') </option>
+              <option value="set_dom_str('TA1',unescape(get_dom_str('TA0')))"> TA1 := unescape('TA0') </option>
+
+              <option value="do_set_store_str('TA0','TA1')"> TA1 := Code für set_store_str(von TA0) </option>
+
+            </optgroup>
+          </select>
+        </div>
+
+        <textarea id="TA0" cols="90" rows="15">Dies ist id="TA0"
+        </textarea> &nbsp;
+
+
+        <div style="padding:0.3em;">
+          <!-- vor der "TA1" -->
+
+          <a class="float_left button" href="javascript:void(0)" onclick="popup(get_dom_str('TA1'));">&nbsp; Vorschau &nbsp;</a>
+
+          <a class="float_left signet" href="javascript:void(0);" onclick="set_dom_str('TA1',get_dom_str('TA0'));"> ↓ </a> &nbsp;
+          <a class="float_left signet" href="javascript:void(0);" onclick="var ta0=get_dom_str('TA0'),ta1=get_dom_str('TA1');set_dom_str('TA1',ta0);set_dom_str('TA0',ta1);"> ↑↓ </a> &nbsp;
+          <a class="float_left signet" href="javascript:void(0);" onclick="set_dom_str('TA0',get_dom_str('TA1'));"> ↑ </a> &nbsp;
+          <a class="float_left button" style="width: 150px;" href="javascript:void(0)" onclick="show('Im oberen Eingabefeld (TA0) wurden '+ get_dom_str('TA0').length + ' Zeichen (inkl. Leerzeichen und Umbrüchen) gefunden.');">&nbsp; Zeichenanzahl TA0 &nbsp;</a>
+          <select size="1" class="float_left overflow_hidden" style="width:160px;" onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){show(e);}">
+            <option value="void(0)">Textmuster</option>
+            <optgroup label="HTML5-Templates">
+              <option value="set_dom_str('TA1','➢|➤|☄|∧|◑|◐|▞|◥|☖|☗|♆|⚶ a5=A|➢|➤|☄|∧|◑|◐|▞|◥|☖|☗|♆|⚶⑬⑭⑮⑯⑰⑱⑲➀➁➂➃➄➅➆➇➈➉➊➋➌➍➎➏➐➑➒㉑㉒㉓㉔')"> Umschlossene Zeichen </option>
+              <option value="set_dom_str('TA1',unescape(get_store_str('HTML5 (einfaches Muster)')))"> HTML5 (einfaches Muster) </option>
+              <option value="set_dom_str('TA1',unescape(get_store_str('noch einfacheres HTML5 Beispiel')))">noch einfacheres HTML5 Beispiel</option>
+            </optgroup>
+            <optgroup label="CSS3-Templates ...">
+              <option value="set_dom_str('TA1',unescape(get_store_str('CSS3 Gradient')))"> CSS3 Gradient Example </option>
+              <option value="set_dom_str('TA1',unescape(get_store_str('CSS3 Border Radius')))"> CSS3 Border Radius Example </option>
+            </optgroup>
+            <optgroup label="ECMAScript-Templates ...">
+              <option value="set_dom_str('TA1',unescape(get_store_str('Text im Script-Tag')))"> Text im Script-Tag</option>
+              <option value="set_dom_str('TA1',unescape(get_store_str('Confirm Beispiel')))"> Confirm Beispiel</option>
+            </optgroup>
+          </select>
+
+
+        </div>
+
+        <textarea id="TA1" cols="90" rows="4" style="width:99%;">
+          <h1> Teste script-Code </h1>
+          <script>
+            var i, obj = {},
+              arr = [];
+            var str = "Script-Code\nin id='TA1'";
+            alert(str);
+            window.onload = function() {}
+          </script>
+        </textarea>
+      </form>
+
+
+    </dd>
+    <dt> Bedienungshinweise
+      <dfn>Help </dfn>
+    </dt>
+    <dd>
+      <p>
+        Das Zeichenketten-Toolchen ist für Web-Entwickler, kann Zeichenketten in unterschiedliche Darstellungen wandeln und als Template-Toolchen Code- und Text-Schnipsel zur Verfügung stellen.
+      </p>
+      <p>
+        Die obere Textarea id="TA0" dient i.a. als Eingabe und die untere Textarea id="TA1" als Ausgabe. Das Ergebnis kann als Browser-Vorschau angezeigt werden.
+      </p>
+
+
+    </dd>
+  </dl>
+
+
+</body>
+
+</html>

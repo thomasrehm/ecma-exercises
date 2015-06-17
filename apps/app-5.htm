@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>RNG Visualizer App</title>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="../kern/esa.css" />
+    <script type="text/javascript" src="../kern/js/bib.js"></script>
+
+    <script type="text/javascript" src="js/my_bib.js"></script>
+    <script type="text/javascript" src="js/welt.js"></script>
+    <script type="text/javascript" src="js/rng.js"></script>
+
+    <script>
+        var my_id = "drawing_canvas";
+        window.onload = function() {
+            //if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+            //rng.running();
+            welt.initialize_canvas(my_id, 'full');
+            var wi = document.getElementById(my_id).width;
+            document.getElementById('min_input').value = 0;
+            document.getElementById('seed_input').value = 3;
+            document.getElementById('max_input').value = wi;
+
+
+
+        };
+    </script>
+
+    <style media="screen">
+        #settings {
+            width: 26%;
+            border: none;
+            float: left;
+            padding: 2%;
+        }
+        p {
+            margin: 0 !important;
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        fieldset input {
+
+            display: inline;
+            float:left;
+        }
+        form input[type=radio] {
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+
+            float: left;
+        }
+        #drawing_canvas {
+
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 id="headline"> RNG Visualizer App</h1>
+    <script>
+        var min, seed, max;
+
+
+        function setVals() {
+            min = dom.dom_str_to_int('min_input'),
+                max = dom.dom_str_to_int('max_input'),
+                seed = dom.dom_str_to_int('seed_input');
+            console.log('MIN: ' + min + ' MAX: ' + max + ' SEED: ' + seed);
+            // return min, max, seed;
+            rng.rng(min, max, seed);
+        }
+
+        function getVals() {
+                min = dom.dom_str_to_int('min_input'),
+                    max = dom.dom_str_to_int('max_input'),
+                    seed = dom.dom_str_to_int('seed_input');
+                rng.rng(min, max, seed);
+            }
+            //getVals();
+    </script>
+
+    <div id="settings">
+        <form action="#" onchange="setVals();">
+            min:
+            <input id="min_input" type="numbers" placeholder="min = 0"> max:
+            <input id="max_input" type="numbers" placeholder="max"> seed:
+            <input id="seed_input" type="numbers" placeholder="seed">
+
+            <input id="rng_own" type="radio"  name="rng_type" value="own" checked>own <br>
+            <input id="rng_own_alt" type="radio"  name="rng_type" value="own_alt">own alternativ <br>
+            <input id="rng_default" type="radio" name="rng_type" value="mathrandom">Math.random
+        </form>
+        <br>
+        <input type="button" name="startstop" class="button" value="start" id="startstopbutton" onclick="getVals();    rng.startstophandler();">
+
+        <br>
+        <br>
+        <a href="javascript:void(0)" class="button" onclick="welt.initialize_canvas(my_id, 'full');rng.resetVals();">Reset</a>
+        <br>
+        <br>
+        <p>Die Standard-Werte für min und max entsprechen der Breite der Canvas-Fläche. Wird das Tool mit Klick auf <b>Start</b> gestartet, werden (pseudo)-Zufallszahlen generiert und in der Canvas-Fläche als Linien von der oberen Grundlinie nach unten zeigend dargestellt. </p>
+        <p>Mit Klick auf <b>Reset</b> wird die Canvas-Fäche neu initialisiert und das Object, das die Zufallszahlen speichert ebenfalls zurückgesetzt. </p>
+    </div>
+    <canvas id="drawing_canvas"></canvas>
+
+
+</body>
+
+</html>

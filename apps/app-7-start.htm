@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<title> Start-Demo für App ( global-regional;Online/Offline;Client-Server;self-made-App ) </title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../../kern/frame-info.css" />
+	<style>
+		textarea {
+			clear: left;
+			float: left;
+			width: 99%;
+		}
+
+		select {
+			float: left;
+			border: 1px solid #aaa;
+			width: 160px;
+		}
+
+		input {
+			float: left;
+			border: 1px solid #aaa;
+		}
+
+		span {
+			float: left;
+			padding: 0 0.2em;
+		}
+	</style>
+	<script>
+		window.onload = function() {
+			if (top["bib"]) {
+				top.bib.dl({
+					doc: document,
+					id: 'DL1',
+					show_idx: [0]
+				});
+			}
+		};
+		var win = window;
+		var doc = win.document,
+			xhr = null,
+			gespeicherte_strings = {},
+			debug_server_antort_nach_ta1 = true;
+
+		function get_store_str(key) {
+			return gespeicherte_strings[key];
+		}
+
+		function set_store_str(key, val) {
+			gespeicherte_strings[key] = val;
+		}
+		set_store_str("char_von_1_bis_255",
+			"%01%02%03%04%05%06%07%08%09%0A%0C%0A%0E%0F%10%11%12%13%14%15%16%17%18%19%1A%1B%1C%1D%1E%1F%20%21%22%23%24%25%26%27%28%29*+%2C-./0123456789%3A%3B%3C%3D%3E%3F@ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D%7E%7F%80%81%82%83%84%85%86%87%88%89%8A%8B%8C%8D%8E%8F%90%91%92%93%94%95%96%97%98%99%9A%9B%9C%9D%9E%9F%A0%A1%A2%A3%A4%A5%A6%A7%A8%A9%AA%AB%AC%AD%AE%AF%B0%B1%B2%B3%B4%B5%B6%B7%B8%B9%BA%BB%BC%BD%BE%BF%C0%C1%C2%C3%C4%C5%C6%C7%C8%C9%CA%CB%CC%CD%CE%CF%D0%D1%D2%D3%D4%D5%D6%D7%D8%D9%DA%DB%DC%DD%DE%DF%E0%E1%E2%E3%E4%E5%E6%E7%E8%E9%EA%EB%EC%ED%EE%EF%F0%F1%F2%F3%F4%F5%F6%F7%F8%F9%FA%FB%FC%FD%FE%FF"
+		);
+		// debug-anzeige für Objekte/Arrays/Strings
+		// ========================================
+		function show(str_oder_obj) {
+			var k, keys, so = str_oder_obj,
+				r = ["show() zeigt:"];
+			if (typeof so !== 'object') {
+				win.alert(so);
+				return;
+			}
+			keys = Object.keys(so);
+			for (k = 0; k < keys.length; k += 1) {
+				r.push(keys[k] + " (" + (typeof so[keys[k]]) + "):" + so[keys[k]]);
+			}
+			return r.join('\n');
+		}
+
+		function is_online() {
+			return (!/file\:/.test(win.location.protocol)) && (/(http|https)\:/.test(win.location.protocol));
+		}
+
+		function get_node(id) {
+			return doc.getElementById(id);
+		}
+
+		function get_str_von(id) {
+			var str = "",
+				node = doc.getElementById(id),
+				tn = node.tagName.toLowerCase();
+			if (tn === 'input' || tn === 'textarea') {
+				str = node.value;
+			}
+			else {
+				str = node.innerHTML = str;
+			}
+			return str;
+		}
+
+		function set_str_to(id, str) {
+			var node = doc.getElementById(id),
+				tn = node.tagName.toLowerCase();
+			if (tn === 'input' || tn === 'textarea') {
+				doc.getElementById(id).value = "";
+				doc.getElementById(id).value = str;
+			}
+			else {
+				doc.getElementById(id).innerHTML = str;
+			}
+		}
+		//  function set_hidden_elemente() {
+		//    var url = win.location.href; if (!is_online()) { return; }
+		//    get_node("htm_web_dir").value = url;
+		//    get_node("server_url").value = url.slice(0, -3) + "php";
+		//    get_node("append_file_name").value = "DATA";
+		//  }
+		// Umwandeln von Unicode-Strings nach base64
+		// =========================================
+		// var b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+		function base64_str_to_utf8_str(base64_str) {
+			var r = "";
+			try {
+				r = decodeURIComponent(decodeURI(window.atob(base64_str.replace(/[\s\W]+/gi, ''))));
+			}
+			catch (e) {}
+			return r;
+		}
+
+		function utf8_str_to_base64_str(utf8_str) {
+			return window.btoa(encodeURI(encodeURIComponent(utf8_str)));
+		}
+
+		function utf8_str_to_byte_chrs(utf8_str) {
+			var byte_chrs = '';
+			try {
+				byte_chrs = win.unescape(encodeURIComponent(utf8_str));
+			}
+			catch (e) {}
+			return byte_chrs;
+		}
+
+		function byte_chrs_to_utf8_str(byte_chrs) {
+			var utf8 = '';
+			try {
+				utf8 = decodeURIComponent(win.escape(byte_chrs));
+			}
+			catch (e) {
+				utf8 = '';
+			}
+			return utf8;
+		}
+
+		function hex_chars_from_utf8_str(utf8_str) {
+			var i, c, byte_chrs = utf8_str_to_byte_chrs(utf8_str),
+				hex_chars = "";
+			for (i = 0; i < byte_chrs.length; i += 1) {
+				c = byte_chrs.charCodeAt(i).toString(16);
+				if (c.length === 2) {
+					hex_chars += c;
+				}
+				else if (c.length === 1) {
+					hex_chars += "0" + c;
+				}
+			}
+			return hex_chars;
+		}
+
+		function utf8_str_from_hex_chrs(hex_chrs) {
+			var byte_chrs = hex_chrs.replace(/([0-9a-f]{2})/g, function(a, c) {
+				return String.fromCharCode(parseInt(c, 16));
+			});
+			return byte_chrs_to_utf8_str(byte_chrs);
+		}
+		// arbeiten mit Form-Werten
+		// ========================
+		function get_alle_formwerte() {
+			var f = {};
+			f.pw1 = document.getElementById('pw1').value;
+			f.pw2 = document.getElementById('pw2').value;
+			f.ta0 = document.getElementById('ta0').value;
+			f.ta1 = document.getElementById('ta1').value;
+			f.ta2 = document.getElementById('ta2').value;
+			f.uvw = document.getElementById('uvw').checked || false;
+			f.xyz = document.getElementById('xyz').checked || false;
+			//      f.append_file_name = document.getElementById('append_file_name').value;
+			//      f.htm_web_dir = document.getElementById('htm_web_dir').value; // vor Senden überschreiben!
+			//      f.server_url = document.getElementById('server_url').value; // vor Senden überschreiben!
+			return f;
+		}
+
+		function set_formwerte(o) {
+			var i, el, id, ids = Object.keys(o);
+			for (i = 0; i < ids.length; i += 1) {
+				id = ids[i];
+				el = document.getElementById(id);
+				switch (id) {
+					case "pw1":
+						el.value = o[id];
+						break;
+					case "pw2":
+						el.value = o[id];
+						break;
+					case "ta0":
+						el.value = o[id];
+						break;
+					case "ta1":
+						el.value = o[id];
+						break;
+					case "ta2":
+						el.value = o[id];
+						break;
+					case "uvw":
+						el.checked = o[id];
+						break;
+					case "xyz":
+						el.checked = o[id];
+						break;
+						//          case "append_file_name": el.value = o[id]; break;
+						//          case "htm_web_dir": el.value = o[id]; break;
+						//          case "server_url": el.value = o[id]; break;
+					default:
+						show("ERR:set_formwerte(o) mit o=" + o);
+						break;
+				}
+			}
+		}
+
+		function base64_str_von_form() {
+			var obj = get_alle_formwerte(),
+				utf8_str = JSON.stringify(obj);
+			return utf8_str_to_base64_str(utf8_str);
+		}
+		// Formulardaten zum Senden prüfen, aufbereiten, JSON, verschlüsseln
+		// =================================================================
+		function get_aufbereitetes_sende_obj(debug_anzeigen_vor_dem_senden) { // gibt send_str zurück
+			var i, el, id, t, ids, send_str, err = false,
+				base64_str, utf8_str,
+				send_obj = {},
+				els = get_alle_formwerte();
+			ids = Object.keys(els);
+			for (i = 0; i < ids.length; i += 1) {
+				id = ids[i]; // validieren von Textarea
+				switch (id) {
+					case "pw2":
+						send_obj[id] = els[id];
+						break;
+					case "pw1":
+						t = els[id].length;
+						if (!t || t < 4 || t > 999) {
+							show("PW braucht mindestens 4 Zeichen");
+							return null;
+						}
+						send_obj[id] = els[id];
+						break;
+					case "ta0":
+						t = els[id].replace(/([\s\S]+)\1/g, '').length;
+						if (!t || t < 20 || t > 9999) {
+							show("Textarea braucht mehr Zeichen");
+							return null;
+						}
+						send_obj[id] = els[id];
+						break;
+						//        case "append_file_name": send_obj[id] = els[id]; break;
+						//        case "htm_web_dir": send_obj[id] = els[id]; break;
+						//      case "server_url": send_obj[id] = els[id]; break;
+					default:
+						break;
+				}
+			}
+			//*** start debug vor_senden ( kann später weg ) ***
+			if (debug_anzeigen_vor_dem_senden) {
+				utf8_str = JSON.stringify(send_obj);
+				base64_str = utf8_str_to_base64_str(utf8_str);
+				switch (debug_anzeigen_vor_dem_senden) {
+					case "show_utf8_str":
+						set_str_to("ta2", "clientseitig: utf8_str = JSON.stringify(send_obj) liefert:\n" + utf8_str);
+						break;
+					case "show_base64_str":
+						set_str_to("ta1", "clientseitig: utf8_str_to_base64_str(JSON.stringify(send_obj)) liefert:\n" + base64_str);
+						break;
+					default:
+						break;
+				}
+			} //*** ende von debug vor_senden ***
+			return send_obj;
+		}
+
+		function sende_zum_server(form, mod) { //global sind xhr und debug_server_antort_nach_ta1=1
+			var send_utf8, send_base64, url, send_obj;
+			if (!is_online()) {
+				show("Kein Netz verfügbar");
+				return;
+			}
+			send_obj = get_aufbereitetes_sende_obj();
+			if (!send_obj) {
+				return;
+			}
+			url = win.location.href;
+			send_obj.htm_web_dir = url.replace(/^(.+)\/.*$/, "$1");
+			send_obj.action = url.slice(0, -3) + "php";
+			send_obj.append_file_name = form.name;
+			send_utf8 = JSON.stringify(send_obj);
+			send_base64 = utf8_str_to_base64_str(send_utf8);
+			//???test
+			send_base64 = hex_chars_from_utf8_str(send_utf8);
+			alert(send_base64);
+			if (!send_base64) {
+				return null;
+			}
+			try {
+				xhr = new XMLHttpRequest();
+			}
+			catch (failed) {
+				//*** hier todo:
+				//*** falls nicht online, dann speichere in localStorage, ggf. confirm()
+				// teste ... set_str_to("ta2", 'Kein Web verfügbar');
+				return;
+			}
+			xhr.open("POST", send_obj.action, true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			xhr.send('GESENDET_VON_CLIENT=' + send_base64);
+			xhr.onreadystatechange = function() {
+				var antwort_str = 0; // Callback-Funktion
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					antwort_str = xhr.responseText;
+					if (antwort_str && mod === "debug_server_antort_nach_ta1") {
+						set_str_to("ta1", "Server antwortet:\n" + antwort_str);
+					}
+					else {
+						win.alert(antwort_str);
+					}
+				}
+			};
+		}
+	</script>
+</head>
+
+<body>
+	<noscript>Diese Seite braucht Browser mit aktivierten JavaScript</noscript>
+	<h1> Online/Offline-App für ... </h1>
+	<div class="rot"> lediglich eine Anfang ...</div>
+	<form name="DATA" action="http://verarbeite_form_daten" onsubmit="return false;">
+		<dl id="DL1">
+			<dt> Online/Offline-App für ... </dt>
+			<dd>
+				<input type="button" value="Senden" onclick='sende_zum_server(this.form,"debug_server_antort_nach_ta1")' />
+				<span> pw1:</span>
+				<input type="text" size="10" id="pw1" value='Test1' />
+				<br style="clear:left;" />
+				<textarea id="ta0" cols="90" rows="10" maxlength="9999">   !"#$%&'()*+,-./0123456789:;
+					<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~  ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ</textarea>
+				<br style="clear:left;"> // ??? ta-placeholder="hinweis in der ta0 ..." ??? ta-required ??? ta-pattern <a style="float:left;border:0.3em solid #aaa;" href="javascript:void(0)" onclick="var t=document.getElementById( 'ta1').value;document.getElementById( 'ta1').value=document.getElementById( 'ta0').value;document.getElementById( 'ta0').value=t;"> ↑↓ </a>
+				<select size="1 " onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){alert(e);} ">
+					<option value='void(0)'> Einige Tests ...</option>
+					<option value='set_str_to("ta0 ",unescape(get_store_str("char_von_1_bis_255 ")));'> ta0 = set_store_str("char_von_1_bis_255 ") </option>
+					<option value='set_str_to("ta1 ",show(get_alle_formwerte()));'> ta1 = show(get_alle_formwerte()) </option>
+					<optgroup label="Anzeigen ( debuganzeige ) --------------------------------------------- ">
+						<option value='set_str_to("ta1 ","ta1=u tf8_str_to_base64_str(ta0):\n "+utf8_str_to_base64_str(get_str_von("ta0 ")));'> ta1 = utf8_str_to_base64_str(ta0)</option>
+						<option value='set_str_to("ta1 ",base64_str_von_form());'> ta1 = utf8_str_to_base64_str( JSON.stringify( alle Formelemente ) ));
+							<option value='set_str_to("ta2 ","ta2=b ase64_str_to_utf8_str(ta1):\n "+base64_str_to_utf8_str(get_str_von("ta1 ")));'> ta2 = base64_str_to_utf8_str(ta1)</option>
+					</optgroup>
+					<optgroup label="daten vor dem senden ( debuganzeige ) ----------------------------------- ">
+						<option value='get_aufbereitetes_sende_obj("show_utf8_str ");'> ta2 = get_aufbereitetes_sende_obj("show_utf8_str ") </option>
+						<option value='get_aufbereitetes_sende_obj("show_base64_str ");'> ta1 = get_aufbereitetes_sende_obj("show_base64_str ") </option>
+					</optgroup>
+					<optgroup label="antwort vom Server ( debuganzeige ) ------------------------------------- ">
+						<option value='sende_zum_server("server_antwort_nach_ta1 ","debug_server_antort_nach_ta1 ");'> ta1 = sende_zum_server("server_antwort_nach_ta1 ","debug_server_antort_nach_ta1 ") </option>
+					</optgroup>
+				</select>
+				<br style="clear:left; ">
+				<br style="clear:left; ">
+				<textarea id="ta1 " cols="90 " rows="4 " style="display:block; ">ta1</textarea>
+				<br style="clear:left; "> <a href="javascript:void(0) " onclick="var t=document.getElementById( 'ta2').value;document.getElementById( 'ta2').value=document.getElementById( 'ta1').value;document.getElementById( 'ta1').value=t; " style="border:0.3em solid #aaa; "> ↑↓ </a>
+				<br
+				style="clear:left; ">
+					<br style="clear:left; ">
+					<textarea id="ta2 " cols="90 " rows="4 " style="display:block; ">id="ta2 "</textarea> &nbsp;
+					<br style="clear:left; ">
+					<br /> </dd>
+			<dt> Nur für Admin </dt>
+			<dd>
+				<p> Für diesen Bereich werden Passwörter benötigt. Dieser Bereich dient lediglich dem Administrieren bzw. dem ... </p>
+				<span>pw2:</span>
+				<input type="text " size="100 " id="pw2 " value='+ßäöüÄÖÜ' />
+				<span> Wende an: "uvw " </span>
+				<input type="radio " id="uvw " name="anwendeverfahren " checked="checked " />
+				<span> "xyz " </span>
+				<input type="radio " id="xyz " name="anwendeverfahren " /> </dd>
+		</dl>
+	</form>
+</body>
+
+</html>

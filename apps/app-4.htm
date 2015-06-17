@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title> DrawOnCanvas App</title>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="../kern/esa.css" />
+    <script type="text/javascript" src="../kern/js/bib.js"></script>
+
+    <script type="text/javascript" src="js/my_bib.js"></script>
+    <script type="text/javascript" src="js/welt.js"></script>
+
+    <script>
+    var my_id = "drawing_canvas";
+        window.onload = function() {
+            //if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+
+            welt.initialize_canvas(my_id, 'full');
+            welt.draw();
+
+
+        };
+    </script>
+
+    <style media="screen">
+        #settings {
+            width: 26%;
+            border: none;
+            float: left;
+            padding: 2%;
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        fieldset input {
+            display: inline;
+        }
+
+        #drawing_canvas {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 id="headline"> Sketch App</h1>
+
+    <div id="settings">
+
+        Stiftfarbe:<br>
+        <a href="javascript:void(0)" style="background:black !important;" onclick="welt.setStrokeColor('black');" class="button">Schwarz</a>
+        <a href="javascript:void(0)" style="background:cyan !important;" onclick="welt.setStrokeColor('cyan');" class="button">Cyan</a>
+        <a href="javascript:void(0)" style="background:magenta !important;" onclick="welt.setStrokeColor('magenta');" class="button">Magenta</a>
+        <a href="javascript:void(0)" style="background:yellow !important;" onclick="welt.setStrokeColor('yellow');" class="button">Gelb</a>
+
+        <br> Stiftbreite:<br>
+        <a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(1);">1 px</a>
+        <a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(5);">5 px</a>
+        <a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(10);">10 px</a>
+        <br>
+        <br>
+        <a href="javascript:void(0)" class="button" onclick="welt.initialize_canvas(my_id, 'full');">Zurücksetzen</a>
+
+        <a href="javascript:void(0)" class="button" onclick="dom.download_img(this, my_id, 'first_sketch.png');">Download Image</a>
+        <br>
+        <br>Dies ist einfache Zeichenapp für jeden, der einfach malen möchte oder sich kurz eine bunte Notiz aufschreiben möchte.
+
+    </div>
+    <canvas id="drawing_canvas"></canvas>
+
+
+</body>
+
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<title> Liste meiner Aktivitäten </title>
+	<meta charset="utf-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script>
+		window.onload = function() {
+			if (top["bib"]) {
+				top.bib.dl({
+					doc: document,
+					id: 'DL1',
+					show_idx: []
+				});
+			}
+		};
+	</script>
+</head>
+
+<body>
+	<h1> Liste meiner Aktivitäten </h1>
+	<p> Hier habe ich meine Aktivitäten zum ESA - Praktikum 2015 protokolliert (Chronologie, Bemerkungen, todo, usw.). Insbesondere werden weitere Ideen, Lösungserfolge, Schwierigkeiten, todo, offene Fragen, Fertigstellungstermine, usw. protokolliert. </p>
+	<dl
+	id="DL1">
+		<dt> Erster Vorlesungstermin 2015-04-13
+			<dfn> Besprechung, Projekte, Termine </dfn>
+		</dt>
+		<dd>
+			<p> Es wurden Formalien und Hilfsmittel zur Veranstaltung besprochen und im praktischen Teil auf Lösungsmöglichkeiten eingegangen. </p>
+			<p> Die Online-Unterlagen zu ESA-Veranstaltung sind zu finden unter
+				<a class="extern" target="_blank" href='http://www.cilie.org/esa/index.htm'> ESA-Vorlesung </a>. Die Augabenstellung zum ersten ESA-Projekt ist zu finden unter
+				<a class="extern" target="_blank" href='http://www.cilie.org/esa/prakt-2015/auf-1-2015.htm'> 1. ESA-Projekt </a>
+			</p>
+			<p> Bei der XX. Aufgabe ging es darum, … </p>
+			<p> Es wurden folgende Schritte durchgeführt </p>
+			<ul class="dir">
+				<li> Zunächst wurden die besprochenen </li>
+				<li> dann </li>
+				<li> weiterhin wurden </li>
+				<li> ... </li>
+			</ul>
+		</dd>
+		<dt> 1. Projekt bis 2015-04-19
+			<dfn> Homepage einrichten und Ed-App </dfn>
+		</dt>
+		<dd>
+			<p> Bei der 1. Aufgabe ging es darum, den vorbereiteten Homepage-Rahmen auf den Server der Hochschule zu laden um diesen über die URL anzeigen zu können. Weiterhin sollte die Webseite inhaltlich angepasst und das Layout individualisiert werden. Außerdem
+				sollte die Editor-App mit weiteren Funktionen und Textmustern erweitert werden. </p>
+			<p> Es wurden folgende Schritte durchgeführt: </p>
+			<ul class="dir">
+				<li> Zunächst wurden die besprochenen vorarbeiten erledigt (ZIP runterladen, entpacken, Verbindung zum Server einrichten, Homepage-Rahmen auf Server laden) </li>
+				<li> dann wurde die Homepage inhaltlich und optisch individualisiert </li>
+				<li> weiterhin wurden Textmuster in der Ed-App in den Bereichen HTML5-Templates, CSS3-Templates und ECMAScript-Templates hinzugefügt </li>
+				<li> weiterhin wurde in der Ed-App ein Button zum Anzeigen der Zeichenanzahl im Feld TA0 angelegt </li>
+			</ul>
+		</dd>
+		<dt> 2. Projekt bis 2015-04-26
+			<dfn>A-Tag Extractor mit RegExp</dfn>
+		</dt>
+		<dd>
+			<p> Bei der zweiten Aufgabe ging es darum, mithilfe von regulären Ausdrücken (RegularExpression) aus bestehendem Text einen bestimmten Ausdruck zu verarbeiten. Ich habe mich dazu entschieden, einen einfach Link-Extractor zu implementieren. Außerdem sollte
+				eine eigene JavaScript-Bibliothek angelegt und verlinkt werden. </p>
+			<p> Es wurden folgende Schritte durchgeführt: </p>
+			<ul class="dir">
+				<li> Zunächst wurden die regulären Ausdrücke getestet, bis diese die gewünschten Ergebnisse geliefert haben. </li>
+				<li> Dann habe ich die JavaScript-Bibliothek anlegegt und um die Funktionen für die zweite Übung erweitert. </li>
+				<li> Weiterhin habe ich dabei versucht Loader zu implementieren, der den Source-Code einer beliebigen Webseite in einen String lädt und dann beliebiege RegularExpression darauf anwendbar zu machen. Dies ist mir leider nicht gelungen. </li>
+			</ul>
+		</dd>
+		<dt> 3. Projekt bis 2015-05-03
+			<dfn> Statistik Canvas App </dfn>
+		</dt>
+		<dd>
+			<p> Bei der dritten Aufgabe ging es darum eine Anwendung zu programmieren, die mittels frei einstellbarer Parameter ein HTML5 Canvas füllt bzw. zeichnet/geniert. Ich habe eine Statistik-Visualisierungs-App geschrieben. </p>
+			<p> Es wurden folgende Schritte durchgeführt: </p>
+			<ul class="dir">
+				<li> Zunächt wurde das HTML5 Grundgerüst angelegt. Es ist einen Textarea vorhanden, die das Eingeben der Werte ermöglicht. Diese müssen immer als Key-Value-Paare eingetragen werden, und müssen die folgenden Elemente enthalten: name, value & color. </li>
+				<li> Die bestehende JavaScript Bibliothek wurde um die Funktionen getData(), drawRing(), drawBalken() und download_img() erweitert. </li>
+				<li> Die Funktion getData() lädt die Daten aus der Textarea und parst diese als JSON. Die Funktionen drawRing() und drawBalken() greifen dann auf die bereitgestellten Daten im JSON-Format zu und erzeugen bei anklicken des zugehörigen Buttons die Grafik
+					im Canvas Element. Dabei wird bei jedem erneuten Funktionsaufruf von drawRing() und drawBalken() die Funktion getData() ebenso erneut aufgerufen um die Daten zu aktuallisieren. Außerdem wird vor jedem Zeichenvorgang die Zeichenfläche geleert. </li>
+			</ul>
+		</dd>
+		<dt> 4. Projekt bis 2015-05-10
+			<dfn> Einfache Zeichenapp </dfn>
+		</dt>
+		<dd>
+			<p> Bei der vierten Aufgabe ging es darum eine Anwendung zu programmieren, mit der man mittels MausClick innerhalb einer Canvas-Fläche etwas verändern kann. Es handelt sich um eine einfache Zeichenapp zum testen seiner Malfähigkeiten mit der Maus oder
+				einfach nur um eine Notiz zu machen. </p>
+			<p> Es wurden folgende Schritte durchgeführt: </p>
+			<ul class="dir">
+				<li> Zunächt wurde das HTML5 Grundgerüst angelegt. Es sind Buttons zur Wahl der Stiftfarbe und Stiftbreite vorhanden. Durch Click auf diese Button wird ein anderer Wert in der Context-Object geschrieben. </li>
+				<li> Die bestehende JavaScript Bibliothek wurde um die Funktionen initialize_canvas(), setStrokeColor(), setLineWidth(), draw() und set_ctx_attr() erweitert. </li>
+				<li> Die interessanteste Funktion draw() enthält alle Anweisungen zum Zeichnen in der Canvas-Fläche. Innerhalb der Funktion sind auch die MouseListener enthalten. Jenachdem ob nur geklickt, geklickt und gezogen oder wieder losgelassen wird, werden unterschiedliche
+					Zeichenoperationen ausgeführt. Außerdem wird hier auch die Mausposition ausgelesen und umgerechnet. </li>
+			</ul>
+		</dd>
+		<dt> 5. Projekt bis 2015-05-17
+			<dfn> RNG Visualizer App </dfn>
+		</dt>
+		<dd>
+			<p>Bei der fünften Aufgabe ging es darum, mehrere Zufallszahlen-Generatoren (RNG) zu entwerfen, und die Ausgaben in einer Canvas-Fläche darzustellen. Es wurden folgende Schritte durchgeführt:</p>
+			<ul>
+				<li>Anlegen der Funktionen rng_…() zum erzeugen der Zufallszahlen</li>
+				<li>Entwickeln eines Systems zur Darstellung der generierten Zahlen.</li>
+				<li>Anlegen und umsetzen einer simplen UI zur Eingabe unterschiedlicher Werte.</li>
+				<li>Reset-Funktionen implementiert</li>
+				<li>Zeitgesteuerte Abfeuerung des Events zur Berechnung von neuen Zufallszahlen (mittels setTimeout und setInterval, alle 20ms wird neuer Wert berechnet.)</li>
+			</ul>
+		</dd>
+		<dt> 6. Projekt bis 2015-05-24
+			<dfn> Encrypt/Decrypt App </dfn>
+		</dt>
+		<dd>
+			<p>Bei der sechsten Aufgabe ging es darum, mehrere Verschlüsselungsalgorithmen zu implementieren um einen Input-Text mittels Verschlüsselungsverfahren und Passwort bzw. Key zu verschlüsseln. Es wurden folgende Schritte durchgeführt:</p>
+			<ul>
+				<li>Einrichten der Benutzeroberfläche und Vorbereitungen</li>
+				<li>Implemtieren des Tiny Encryption Algorithm mit tea-block.js-Script um ein besseres Verständnis für die Funktionsweise von Verschlüsselungen zu bekommen</li>
+				<li>Implementierung einer eigenen Caesar-Chiffre:</li>
+				<ul>
+					<li>Vorbereiten der benötigten Funktionen und Variablen</li>
+					<li>Implementieren eines eigenen Schlüssel-Generators aufgrund eines Passworts und eines "Alphabets"</li>
+					<li>Verschlüsselung und Entschlüsselung geschieht durch geeignetes Ersetzen der Zeichen im String</li>
+				</ul>
+			</ul>
+		</dd>
+		<dt> 7. Projekt bis 2015-06-17
+			<dfn> Notes-App </dfn>
+		</dt>
+		<dd>
+			<p>Bei der siebten Aufgabe ging es darum, mittels AJAX, JavaScript und PHP, Texte in einer Datei auf dem Server abzuspeichern. Es wurden die folgenden Schritte durchgeführt: </p>
+			<ul>
+				<li>Einrichten der Benutzeroberfläche und Planung der benötigten Funktionen</li>
+				<li>Implementieren der JavaScript Funktionen, um mittels XMLHttpRequest JSON Daten an den Server zu schicken bzw. aus der mit PHP generierten JSON-Datei die Daten wieder auszulesen</li>
+				<li>Einfaches PHP Skript schreiben, um die Daten, die per POST vom Browser kommen, in die JSON Datei zu speichern.</li>
+			</ul>
+			<p>Nachtrag 17.6.15</p>
+			<p>Die folgenden Änderungen wurden zusätzlich durchgeführt:</p>
+			<ul>
+				<li>Sicherheit des Systems erhöht, durch "@fopen" Deklarationen und durch schreiben in versteckte .-Dateien</li>
+				<li>Verschieben der Struktur (PHP- und Notes-Files) in einen eigenen Ordner, um die Write-Funktionalitäten zu kapseln</li>
+				<li>Rechte werden richtig vergeben</li>
+				<li>Außerdem wird jede Notiz nun mit einer eindeutigen UniqueID versehen, somit könnte ein Bearbeitungsvorgang leicht erweitert werden.</li>
+			</ul>
+			<p>Link zur Lösung: <a href="../apps/app-7.htm">Notes-App</a></p>
+			<p>Link zum PHP-Skript zur Ansicht: <a href="../apps/app7/app-7.php?show_php" target="_blank">PHP-Skript</a></p>
+		</dd>
+
+
+
+		<dt> 8. Projekt bis 2015-06-21
+			<dfn>
+				Canvas to SVG App
+			</dfn>
+		</dt>
+		<dd>
+		<p>Bei der achten Aufgabe ging es darum, sich intensiv mit Scalable Vector Graphics zu beschäftigen. Ich habe mich dazu entschlossen, meine "Einfache Zeichenapp" so zu erweitern, dass die gezeichneten Linien als Vektoren in einer SVG ausgegeben werden. Es wurden die folgenden Schritte durchgeführt:</p>
+		<ul>
+			<li>SVG-Tag intensiv anschauen und verstehen, um die Anwendung sinnvoll schreiben zu können.</li>
+			<li>JS-Bibliothek "SVG.js" angelegt und teilweise Funktionen der Grafik-Bibliothek "welt.js" übernommen und für die Zwecke dieser App angepasst. </li>
+			<li>Funktionen entwickelt, die Grafiken erzeugen (<code>heart(), rect(), circle() und newRandomElement()</code>).</li>
+			<li>Intensiv die korrekte Umsetzung einer SVG untersucht, damit diese per <code>new Blob()</code>-Funktion generiert und heruntergeladen werden kann.</li>
+		</ul>
+
+
+
+
+		</dd>
+
+
+		<!--
+		<dt> 9. Projekt bis 2015-06-14
+			<dfn>
+				<span class="rot">DEMNÄCHST</span>
+			</dfn>
+		</dt>
+		<dd>
+
+
+
+
+
+		</dd>
+		<dt> 10. Projekt bis 2015-06-21
+			<dfn>
+				<span class="rot">DEMNÄCHST</span>
+			</dfn>
+		</dt>
+		<dd>
+
+ -->
+		</dl>
+</body>
+
+</html>
