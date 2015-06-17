@@ -9,8 +9,8 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="author" content="Student Name" />
 	<meta name="description" lang="de" content=" Praktikum 'ECMAScript-Applikationen', THM Giessen, Master-Veranstaltung" />
-	<link rel="shortcut icon" type="image/x-icon" href="./kern/favicon.gif" />
-	<link rel="icon" type="image/x-icon" href="./kern/favicon.gif" />
+	<link rel="shortcut icon" type="image/x-icon" href="./kern/favicon.ico" />
+	<link rel="icon" type="image/x-icon" href="./kern/favicon.ico" />
 	<script type="text/javascript" src="./kern/js/bib.js"></script>
 </head>
 <frameset rows="*" cols="240,*">
