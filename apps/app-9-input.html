@@ -12,13 +12,7 @@
 	<script type="text/javascript" src="js/rng.js"></script>
 	<script type="text/javascript" src="js/e2e.js"></script>
 	<script type="text/javascript" src="js/tea-block.js"></script>
-	<script type="text/javascript" src="js/ajax.js"></script>
-	<script>
-		window.onload = function() {
-			//if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
-			// ajax.loadNotes();
-		};
-	</script>
+	<script type="text/javascript" src="js/localnotes.js"></script>
 	<style media="screen">
 		#settings {
 			/* width: 20%; */
@@ -131,9 +125,9 @@
 			<br>
 			<br> Neue Notiz
 			<textarea id="ta0">Spülmaschine ausräumen</textarea>
-			<a href="javascript:void(0)" class="button" onclick="ajax.submitNote('localstorage');">Notiz hinzufügen</a>
-			<a href="javascript:void(0)" class="button" onclick="ajax.loadNotes('localstorage');">Notizen laden</a>
-			<a href="javascript:void(0)" class="button" onclick="localStorage.clear();ajax.loadNotes('localstorage');">Clear LocalStorage</a>
+			<a href="javascript:void(0)" class="button" onclick="localnotes.submitNote('localstorage');">Notiz hinzufügen</a>
+			<a href="javascript:void(0)" class="button" onclick="localnotes.loadNotes('localstorage');">Notizen laden</a>
+			<a href="javascript:void(0)" class="button" onclick="localStorage.clear();localnotes.loadNotes('localstorage');">Clear LocalStorage</a>
 			<br><br>
 		<div class="erklaerung">Die Notizen werden im Browser mit Hilfe des TinyEncryptionAlgorithm verschlüsselt und ausschließlich verschlüsselt im LocalStorage des Browsers abgelegt. Nur mit dem korrekten Usernamen und Passwort werden die Notizen auch wieder korrekt entschlüsselt.</div>
 		</div>

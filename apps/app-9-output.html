@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="js/rng.js"></script>
 	<script type="text/javascript" src="js/e2e.js"></script>
 	<script type="text/javascript" src="js/tea-block.js"></script>
-	<script type="text/javascript" src="js/ajax.js"></script>
+	<script type="text/javascript" src="js/localnotes.js"></script>
 	<script>
 		// checkIframeLoaded inspired by http://stackoverflow.com/questions/9249680/how-to-check-if-iframe-is-loaded-or-it-has-a-content
 		function checkIframeLoaded() {
@@ -26,15 +26,13 @@
 				};
 				// The loading is complete, call the function we want executed once the iframe is loaded
 				console.log("Iframe loaded");
-				ajax.loadNotes('localstorage');
+				localnotes.loadNotes('localstorage');
 				return;
 			}
 			// If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
 			setTimeout('checkIframeLoaded();', 100);
 		};
 		window.onload = function() {
-			//if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
-			// ajax.loadNotes('localstorage');
 			checkIframeLoaded();
 			console.log('initial');
 		};

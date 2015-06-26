@@ -2,12 +2,6 @@ var ajax = function (win) {
 	var win = window,
 		doc = document,
 		baseURL = win.location.href.replace(/^(.+)\/.*$/, "$1"),
-		iframeInput = parent.document.getElementById('iFrame_INPUT'),
-		iframeInputWin = iframeInput.contentWindow,
-		iframeInputDoc = iframeInput.contentDocument ? iframeInput.contentDocument : iframeInput.contentWindow.document,
-		iframeOutput = parent.document.getElementById('iFrame_OUTPUT'),
-		iframeOutputWin = iframeOutput.contentWindow,
-		iframeOutputDoc = iframeOutput.contentDocument ? iframeOutput.contentDocument : iframeOutput.contentWindow.document,
 		response;
 
 	// inspired by http://jsfiddle.net/yahavbr/dVz7y/
@@ -25,45 +19,14 @@ var ajax = function (win) {
 		return (num >= 0 && num < 10) ? "0" + num : num + "";
 	}
 
-	function getPassword() {
-		var password;
-		if (document.getElementById('pw')) {
-			password = String(document.getElementById('pw').value);
-		} else {
-			password = String(iframeInputDoc.getElementById('pw').value);
-
-		}
-		return password;
-	};
-
-	function getInput() {
-		var input;
-		if (document.getElementById('ta0')) {
-			input = String(document.getElementById('ta0').value);
-		} else {
-			input = String(iframeInputDoc.getElementById('ta0').value);
-		}
-		return input;
-	};
-
-	function getUser() {
-		var user;
-		if (document.getElementById('user')) {
-			user = document.getElementById('user').value;
-		} else {
-			user = iframeInputDoc.getElementById('user').value;
-		}
-		return user;
-	};
 	var getValues = function () {
 		var f = {};
 		f.caesar = Boolean(false);
 		f.tea = Boolean(true);
-		f.password = getPassword();
-		f.input = getInput();
-		f.user = getUser();
+		f.password = String(document.getElementById('pw').value);
+		f.input = String(document.getElementById('ta0').value);
+		f.user = String(document.getElementById('user').value);
 		f.key = String(f.password + f.user);
-		// console.log(f);
 		return f;
 	}
 
@@ -71,6 +34,7 @@ var ajax = function (win) {
 		var f = getValues();
 		if (f.input == '') {
 			return 'is empty';
+
 		}
 
 	}
@@ -103,90 +67,34 @@ var ajax = function (win) {
 		return note;
 
 	}
-	// Script for unique ID creation copied from Jaspreet Chahal (C) ( http://jaspreetchahal.org/jquery-javascript-create-unique-id-for-an-element/ )
-	function uniqID(idlength) {
-		var charsToFormId = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
-		if (!idlength) {
-			idlength = Math.floor(Math.random() * charsToFormId.length);
-		}
-		var uniqid = '';
-		for (var i = 0; i < idlength; i++) {
-			uniqid += charsToFormId[Math.floor(Math.random() * charsToFormId.length)];
-		}
-		return uniqid;
-	}
 
-	function submitNote(localstorage) {
+
+	function submitNote() {
 		var f = getValues();
 
 		if (f.input.trim() === '') {
 			var msg = "Notiz leer";
 			alert(msg);
 			console.log(msg);
-			return;
+
+			return false;
 		} else {
 			var newNote = createNote(),
-				data = JSON.stringify(newNote);
+				file = "app7/app-7.php",
+				request_type = "POST",
+				data;
 
-			if (localstorage) {
-				var id = uniqID(10);
-				localStorage.setItem('notes_' + f.user + '-' + id, data);
-				loadNotes('localstorage');
-			} else {
-				var file = "app7/app-7.php",
-					request_type = "POST";
-				url = baseURL + "/" + file;
-				checkOnlineState();
-				runRequest(request_type, url, data);
-
-			}
+			data = JSON.stringify(newNote);
+			url = baseURL + "/" + file;
+			checkOnlineState();
+			runRequest(request_type, url, data);
 			doc.getElementById('ta0').value = '';
-
 			//loadNotes();
 		}
 
 	}
 
-	function loadNotes(localstorage) {
-		var f = getValues();
-		if (localstorage) {
-			console.log('load data from localStorage');
-			var storageResponse = '';
-			var notesOfUser = 'notes_' + f.user + '-';
-			// load all items from localstorage
-			for (var i = 0, len = localStorage.length; i < len; ++i) {
-				key = localStorage.key(i);
-				item = localStorage.getItem(key);
-				keyUser = key.split('-');
-				keyUser = keyUser[0] + '-';
-				if (keyUser === notesOfUser) {
-					storageResponse += item + ', ';
-				}
-			}
-
-			storageResponse = storageResponse.substring(0, storageResponse.length - 2);
-			if (!storageResponse) {
-				if (document.getElementById('json_output')) {
-					doc.getElementById('json_output').innerHTML = '<p>Keine Notizen gefunden.</p>';
-				} else {
-					iframeOutputDoc.getElementById('json_output').innerHTML = '<p>Keine Notizen gefunden.</p>';
-				}
-				return;
-			} else {
-				showNotes(storageResponse);
-			}
-		} else {
-			console.log('load data from server');
-			var request_type = "GET",
-				data,
-				url = baseURL + "/app7/.notes_" + f.user + "";
-			runRequest(request_type, url, data);
-
-		}
-	}
-
 	function showNotes(response) {
-
 		response = '{"notes": [' + response + ']}';
 		var notesJSON = JSON.parse(String(response)),
 			f = getValues();
@@ -199,15 +107,18 @@ var ajax = function (win) {
 			prevHTML = prevHTML + '<div class="note"><p>' + content + '</p><i>' + date + '</i></div>';
 
 		}
-		if (document.getElementById('json_output')) {
-			doc.getElementById('json_output').innerHTML = prevHTML;
-		} else {
-			iframeOutputDoc.getElementById('json_output').innerHTML = prevHTML;
-		}
 
+		doc.getElementById('json_output').innerHTML = prevHTML;
 	}
 
+	function loadNotes() {
+		var request_type = "GET",
+			f = getValues(),
+			data,
+			url = baseURL + "/app7/.notes_" + f.user + "";
 
+		runRequest(request_type, url, data);
+	}
 
 	function is_online() {
 		return (!/file\:/.test(win.location.protocol)) && (/(http|https)\:/.test(win.location.protocol));
