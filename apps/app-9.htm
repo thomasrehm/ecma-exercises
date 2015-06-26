@@ -1,26 +1,39 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
+
 <head>
-<title> App 9 (  )</title>
-<meta charset="UTF-8" />
-<meta name="robots" content="noindex" />
-<link rel="stylesheet" href="../kern/esa.css" />
-<script>
-  window.onload = function () {
-    //if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); } 
-  };
-</script>
+	<title>LocalStorage App</title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script>
+		window.onload = function() {
+			//if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+		};
+	</script>
+	<style media="screen">
+		body {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+		}
+
+		#iFrame_INPUT {
+			width: 30%;
+			height: 100%;
+		}
+
+		#iFrame_OUTPUT {
+			float: right;
+			width: 70%;
+			height: 100%;
+		}
+	</style>
 </head>
+
 <body>
-
-
-<h1> ...  App 9 
-</h1>
-
-<p class="float_right rot">IN BEARBEITUNG</p>
-
-
+	<iframe name="iFrame_INPUT" id="iFrame_INPUT" src="app-9-input.html" frameborder="0"></iframe>
+	<iframe name="iFrame_OUTPUT" id="iFrame_OUTPUT" src="app-9-output.html" frameborder="0"></iframe>
 </body>
+
 </html>
-
-

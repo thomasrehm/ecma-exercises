@@ -2,87 +2,84 @@
 <html lang="de">
 
 <head>
-    <title> Canvas to SVG App</title>
-    <meta charset="UTF-8" />
-    <meta name="robots" content="noindex" />
-    <link rel="stylesheet" href="../kern/esa.css" />
-    <script type="text/javascript" src="../kern/js/bib.js"></script>
+	<title> Canvas to SVG App</title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script type="text/javascript" src="../kern/js/bib.js"></script>
+	<script type="text/javascript" src="js/my_bib.js"></script>
+	<script type="text/javascript" src="js/welt.js"></script>
+	<script type="text/javascript" src="js/svg.js"></script>
+	<script>
+		var my_id = "drawing_canvas";
+		window.onload = function() {
+			//if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+			welt.initialize_canvas(my_id, 'half');
+			svg.initialize_svg('half');
+			svg.draw();
+		};
+	</script>
+	<style media="screen">
+		html,
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
 
-    <script type="text/javascript" src="js/my_bib.js"></script>
-    <script type="text/javascript" src="js/welt.js"></script>
-    <script type="text/javascript" src="js/svg.js"></script>
+		#settings {
+			width: 30%;
+			border: none;
+			float: left;
+			padding: 2%;
+			height: 90%;
+			display: block;
+			box-sizing: border-box;
+		}
 
-    <script>
-    var my_id = "drawing_canvas";
-        window.onload = function() {
-            //if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+		fieldset {
+			border: none;
+		}
 
-            welt.initialize_canvas(my_id, 'half');
+		fieldset input {
+			display: inline;
+		}
 
-            svg.initialize_svg('half');
-            svg.draw();
-        };
-    </script>
+		#drawing_canvas {
+			float: left;
+		}
 
-    <style media="screen">
-    html,body { height: 100%; margin: 0px; padding: 0px; }
-        #settings {
-            width: 30%;
-            border: none;
-            float: left;
-            padding: 2%;
-            height: 90%;
-            display: block;
-            box-sizing: border-box;
-        }
-
-        fieldset {
-            border: none;
-        }
-
-        fieldset input {
-            display: inline;
-        }
-
-        #drawing_canvas {
-            float: left;
-        }
-        #svgContainer {
-            clear: none;
-        }
-    </style>
+		#svgContainer {
+			clear: none;
+		}
+	</style>
 </head>
 
 <body>
-
-    <h1 id="headline"> Canvas to SVG App</h1>
-
-    <div id="settings">
-
-        Stiftfarbe:<br>
-        <a href="javascript:void(0)" style="background:black !important;" onclick="welt.setStrokeColor('black');svg.setStrokeColor('black');" class="button">Schwarz</a>
-        <a href="javascript:void(0)" style="background:cyan !important;" onclick="welt.setStrokeColor('cyan');svg.setStrokeColor('cyan');" class="button">Cyan</a>
-        <a href="javascript:void(0)" style="background:magenta !important;" onclick="welt.setStrokeColor('magenta');svg.setStrokeColor('magenta');" class="button">Magenta</a>
-        <a href="javascript:void(0)" style="background:yellow !important;" onclick="welt.setStrokeColor('yellow');svg.setStrokeColor('yellow');" class="button">Gelb</a>
-
-        <br> Stiftbreite:<br>
-        <a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(1);">1 px</a>
-        <a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(5);">5 px</a>
-        <a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(10);">10 px</a>
-        <br>
-        <br>
-        <a href="javascript:void(0)" class="button" onclick="welt.initialize_canvas(my_id, 'half');svg.initialize_svg('half');">Zurücksetzen</a>
-
-        <a href="javascript:void(0)" class="button" onclick="welt.download_img(this, my_id, 'first_sketch.png');">Download PNG</a>
-        <a href="javascript:void(0)" class="button" onclick="svg.download_svg(this, 'svgContainer', 'first_sketch.svg');">Download SVG</a>
-        <br><br>
-        <p>Dies ist eine Zeichenapp, die auf der Canvas-Fläche gemalte Striche als Pfade in einem SVG einbindet. Bei einem einfach Klick in die Canvas-Fläche, ohne die Maus zu bewegen, wird eine zufällige Form an dieser Stelle in der SVG-Fläche generiert.
-        </p>
-        <p>Mit dem "Download PNG"-Button lässt sich der Inhalt der Canvas Fläche als PNG speichern, der "Download SVG"-Button speichert den aktuellen Inhalt der SVG-Grafik.</p>
-    </div>
-    <canvas id="drawing_canvas"></canvas>
-    <div id="svgContainer"></div>
-
+	<h1 id="headline"> Canvas to SVG App</h1>
+	<div id="settings"> Stiftfarbe:
+		<br>
+		<a href="javascript:void(0)" style="background:black !important;" onclick="welt.setStrokeColor('black');svg.setStrokeColor('black');" class="button">Schwarz</a>
+		<a href="javascript:void(0)" style="background:cyan !important;" onclick="welt.setStrokeColor('cyan');svg.setStrokeColor('cyan');" class="button">Cyan</a>
+		<a href="javascript:void(0)" style="background:magenta !important;" onclick="welt.setStrokeColor('magenta');svg.setStrokeColor('magenta');" class="button">Magenta</a>
+		<a href="javascript:void(0)" style="background:yellow !important;" onclick="welt.setStrokeColor('yellow');svg.setStrokeColor('yellow');" class="button">Gelb</a>
+		<br> Stiftbreite:
+		<br>
+		<a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(1);">1 px</a>
+		<a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(5);">5 px</a>
+		<a href="javascript:void(0)" class="button" onclick="welt.setLineWidth(10);">10 px</a>
+		<br>
+		<br>
+		<a href="javascript:void(0)" class="button" onclick="welt.initialize_canvas(my_id, 'half');svg.initialize_svg('half');">Zurücksetzen</a>
+		<a href="javascript:void(0)" class="button" onclick="welt.download_img(this, my_id, 'first_sketch.png');">Download PNG</a>
+		<a href="javascript:void(0)" class="button" onclick="svg.download_svg(this, 'svgContainer', 'first_sketch.svg');">Download SVG</a>
+		<br>
+		<br>
+		<p>Dies ist eine Zeichenapp, die auf der Canvas-Fläche gemalte Striche als Pfade in einem SVG einbindet. Bei einem einfach Klick in die Canvas-Fläche, ohne die Maus zu bewegen, wird eine zufällige Form an dieser Stelle in der SVG-Fläche generiert. </p>
+		<p>Mit dem "Download PNG"-Button lässt sich der Inhalt der Canvas Fläche als PNG speichern, der "Download SVG"-Button speichert den aktuellen Inhalt der SVG-Grafik.</p>
+	</div>
+	<canvas id="drawing_canvas"></canvas>
+	<div id="svgContainer"></div>
 </body>
 
 </html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<title> Notes Output</title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script type="text/javascript" src="../kern/js/bib.js"></script>
+	<script type="text/javascript" src="js/my_bib.js"></script>
+	<script type="text/javascript" src="js/welt.js"></script>
+	<script type="text/javascript" src="js/rng.js"></script>
+	<script type="text/javascript" src="js/e2e.js"></script>
+	<script type="text/javascript" src="js/tea-block.js"></script>
+	<script type="text/javascript" src="js/ajax.js"></script>
+	<script>
+		// checkIframeLoaded inspired by http://stackoverflow.com/questions/9249680/how-to-check-if-iframe-is-loaded-or-it-has-a-content
+		function checkIframeLoaded() {
+			// Get a handle to the iframe element
+			iframe = parent.document.getElementById('iFrame_INPUT');
+			var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+			// Check if loading is complete
+			if (iframeDoc.readyState == 'complete') {
+				iframe.contentWindow.onload = function() {
+					console.log("Iframe loaded");
+				};
+				// The loading is complete, call the function we want executed once the iframe is loaded
+				console.log("Iframe loaded");
+				ajax.loadNotes('localstorage');
+				return;
+			}
+			// If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
+			setTimeout('checkIframeLoaded();', 100);
+		};
+		window.onload = function() {
+			//if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+			// ajax.loadNotes('localstorage');
+			checkIframeLoaded();
+			console.log('initial');
+		};
+	</script>
+	<style media="screen">
+		#settings {
+			width: 20%;
+			border: none;
+			float: left;
+			padding: 2%;
+			display: inline;
+		}
+
+		p {
+			margin: 0 !important;
+		}
+
+		fieldset {
+			border: none;
+		}
+
+		#ta0 {
+			height: 100px;
+			width: 100%;
+		}
+
+		form input[type=text] {
+			display: inline;
+			float: left;
+			width: 100%;
+		}
+
+		form input[type=radio] {
+			margin-top: 5px;
+			margin-left: 5px;
+			margin-right: 5px;
+			float: left;
+		}
+
+		#drawing_canvas {
+			float: left;
+		}
+
+		.outputinput {
+			position: relative;
+			width: 72%;
+			padding: 2%;
+			display: inline-block;
+			clear: both;
+		}
+
+		.outputinput textarea {
+			width: 100%;
+			height: 100px;
+		}
+
+		.erklaerung {
+			float: none;
+			clear: both;
+			display: block;
+			padding: 2%;
+			padding-top: 15px;
+		}
+
+		#json_output {
+			float: left;
+			width: 100%;
+			-moz-column-count: 3;
+			-moz-column-gap: 5px;
+			-webkit-column-count: 3;
+			-webkit-column-gap: 5px;
+			column-count: 3;
+			column-gap: 5px;
+		}
+
+		.note {
+			width: 100%;
+			padding: 5px;
+			margin: 5px;
+			display: inline-block;
+			background-color: #F55064;
+			color: #262A3B;
+			word-wrap: break-word;
+		}
+
+		.note > p {
+			font-size: 1.4em;
+			line-height: 1.4em;
+			width: 90%;
+		}
+
+		.note > i {
+			font-size: 0.7em;
+		}
+	</style>
+</head>
+
+<body>
+	<h1> Output </h1>
+	<div class="outputinput">
+		<div id="json_output"></div>
+	</div>
+</body>
+
+</html>

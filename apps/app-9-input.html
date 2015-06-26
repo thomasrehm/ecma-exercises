@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<title> LocalStorage Notes App</title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script type="text/javascript" src="../kern/js/bib.js"></script>
+	<script type="text/javascript" src="js/my_bib.js"></script>
+	<script type="text/javascript" src="js/welt.js"></script>
+	<script type="text/javascript" src="js/rng.js"></script>
+	<script type="text/javascript" src="js/e2e.js"></script>
+	<script type="text/javascript" src="js/tea-block.js"></script>
+	<script type="text/javascript" src="js/ajax.js"></script>
+	<script>
+		window.onload = function() {
+			//if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
+			// ajax.loadNotes();
+		};
+	</script>
+	<style media="screen">
+		#settings {
+			/* width: 20%; */
+			border: none;
+			float: left;
+			padding: 2%;
+			display: inline;
+		}
+
+		p {
+			margin: 0 !important;
+		}
+
+		fieldset {
+			border: none;
+		}
+
+		#ta0 {
+			height: 100px;
+			width: 100%;
+		}
+
+		form input[type=text] {
+			display: inline;
+			float: left;
+			width: 100%;
+		}
+
+		form input[type=radio] {
+			margin-top: 5px;
+			margin-left: 5px;
+			margin-right: 5px;
+			float: left;
+		}
+
+		#drawing_canvas {
+			float: left;
+		}
+
+		.outputinput {
+			position: relative;
+			width: 72%;
+			padding: 2%;
+			display: inline-block;
+			clear: both;
+		}
+
+		.outputinput textarea {
+			width: 100%;
+			height: 100px;
+		}
+
+		.erklaerung {
+			float: none;
+			clear: both;
+			display: block;
+			padding: 2%;
+			padding-top: 15px;
+		}
+
+		#json_output {
+			float: left;
+			width: 100%;
+			-moz-column-count: 3;
+			-moz-column-gap: 5px;
+			-webkit-column-count: 3;
+			-webkit-column-gap: 5px;
+			column-count: 3;
+			column-gap: 5px;
+		}
+
+		.note {
+			width: 100%;
+			padding: 5px;
+			margin: 5px;
+			display: inline-block;
+			background-color: #F55064;
+			color: #262A3B;
+			word-wrap: break-word;
+		}
+
+		.note > p {
+			font-size: 1.4em;
+			line-height: 1.4em;
+			width: 90%;
+		}
+
+		.note > i {
+			font-size: 0.7em;
+		}
+	</style>
+</head>
+
+<body>
+	<h1> Local Notes Input </h1>
+	<form action="#" onsubmit="return false;">
+		<div id="settings">
+			<select style="width:100%;" size="1" onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){dom.show(e);}">
+				<option value='void(0)'>Beispiel Texte</option>
+				<optgroup label="unverschlüsselt">
+					<option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("lorem-ipsum"))});'> Lorem Ipsum </option>
+					<option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("char_von_1_bis_255"))});'> Char von 1 bis 255 </option>
+					<option value='e2e.set_formwerte({ta0:unescape(e2e.get_store_str("azAZ123öüä"))});'> a-z A-Z 123 öüä</option>
+				</optgroup>
+			</select>
+			<br> User:
+			<input type="text" id="user" value='ecma' />
+			<br> Passwort:
+			<input type="text" id="pw" value='test1234' />
+			<br>
+			<br> Neue Notiz
+			<textarea id="ta0">Spülmaschine ausräumen</textarea>
+			<a href="javascript:void(0)" class="button" onclick="ajax.submitNote('localstorage');">Notiz hinzufügen</a>
+			<a href="javascript:void(0)" class="button" onclick="ajax.loadNotes('localstorage');">Notizen laden</a>
+			<a href="javascript:void(0)" class="button" onclick="localStorage.clear();ajax.loadNotes('localstorage');">Clear LocalStorage</a>
+			<br><br>
+		<div class="erklaerung">Die Notizen werden im Browser mit Hilfe des TinyEncryptionAlgorithm verschlüsselt und ausschließlich verschlüsselt im LocalStorage des Browsers abgelegt. Nur mit dem korrekten Usernamen und Passwort werden die Notizen auch wieder korrekt entschlüsselt.</div>
+		</div>
+		<!-- <div class="outputinput">
+			<div id="json_output"></div>
+		</div> -->
+	</form>
+</body>
+
+</html>

@@ -2,78 +2,55 @@
 <html lang="de">
 
 <head>
-    <title> Statistik Tool</title>
-    <meta charset="UTF-8" />
-    <meta name="robots" content="noindex" />
-    <link rel="stylesheet" href="../kern/esa.css" />
-    <script type="text/javascript" src="../kern/js/bib.js"></script>
-
-    <script type="text/javascript" src="js/my_bib.js"></script>
-    <script type="text/javascript" src="js/welt.js"></script>
-
-    <script>
-        window.onload = function() {
-
-        };
-
-
-
-
-    </script>
-
+	<title> Statistik Tool</title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script type="text/javascript" src="../kern/js/bib.js"></script>
+	<script type="text/javascript" src="js/my_bib.js"></script>
+	<script type="text/javascript" src="js/welt.js"></script>
+	<script>
+		window.onload = function() {};
+	</script>
 </head>
 
 <body>
-    <h1> Canvas-App 3
-    </h1>
-    <div style="margin: 10px; font-size:1em;">
-        <!--<div class="" style="width: 50%; display: inline-block; float:left; margin-right:5%;" >-->
-        <div class="">
-            <h2>Input Bereich</h2>
-            <form action="#" onsubmit="return false;">
-                <p class="float_left" style="display: inline-block; margin-right:15px;">
-                    <select size="1" class="float_left overflow_hidden" style="width:160px; margin-right:10px;"  onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){dom.show(e);}">
-                        <option value="void(0)"> Beispiel Inhalte </option>
-                        <option value="dom.set_dom_str('TA0',unescape(dom.get_store_str('beispiel_mit_title')))"> Beispiel mit Überschrift</option>
-                        <option value="dom.set_dom_str('TA0',unescape(dom.get_store_str('beispiel_ohne_title')))"> Beispiel ohne Überschrift</option>
-                        <option value="dom.set_dom_str('TA0',unescape(dom.get_store_str('beispiele_viele_elemente')))"> Beispiel mit vielen Elementen</option>
-
-                    </select>
-
-
-                </p>
-                <textarea id="TA0" cols="90" rows="15" style="clear:left;float:left;width:99%">
-{"title":"Balkendiagramm zur Wahl"},
-{"name":"CDU", "value": 300, "color":"green" },
-{"name":"FDP", "value": 79, "color":"yellow" },
-{"name":"SPD", "value": 50, "color":"red" }
-</textarea>
-            </form>
-            <br>
-            <a class=" button" onclick="welt.drawBalken();" style="width:100px; break: left;" href="javascript:void(0)">Erstelle Balkendiagramm</a>
-            <a class=" button" onclick="welt.drawRing();" style="width:100px; break: left;" href="javascript:void(0)">Erstelle Ringdiagramm</a>
-
-        </div>
-        <div id="AUSGABE" style="width: 100%; break: both; display: none; height: 500px;">
-            <h2>Ausgabe</h2>
-            <div id="balken" style="float:left; display:inline-block;">
-                <h3>Balkendiagramm</h3>
-                <canvas id="balken_canvas" width="400" height="300"></canvas>
-                <br>
-                <a class=" button" onclick="welt.download_img(this, 'balken_canvas', 'balken_diagramm.png')" style="width:100px; break: left;" href="javascript:void(0)">&nbsp; Save as PNG &nbsp;</a>
-
-            </div>
-            <div id="ring" style="float:left; display:inline-block;">
-                <h3>Ringdiagramm</h3>
-                <canvas id="ring_canvas" width="400" height="300"></canvas>
-                <br>
-                <a class=" button" onclick="welt.download_img(this, 'ring_canvas', 'ring_diagramm.png')" style="width:100px; break: left;" href="javascript:void(0)">&nbsp; Save as PNG &nbsp;</a>
-
-            </div>
-        </div>
-
-
-    </div>
+	<h1> Canvas-App 3 </h1>
+	<div style="margin: 10px; font-size:1em;">
+		<!--<div class="" style="width: 50%; display: inline-block; float:left; margin-right:5%;" >-->
+		<div class="">
+			<h2>Input Bereich</h2>
+			<form action="#" onsubmit="return false;">
+				<p class="float_left" style="display: inline-block; margin-right:15px;">
+					<select size="1" class="float_left overflow_hidden" style="width:160px; margin-right:10px;" onchange="try{eval(this.options[this.selectedIndex].value);this.selectedIndex=0;}catch(e){dom.show(e);}">
+						<option value="void(0)"> Beispiel Inhalte </option>
+						<option value="dom.set_dom_str('TA0',unescape(dom.get_store_str('beispiel_mit_title')))"> Beispiel mit Überschrift</option>
+						<option value="dom.set_dom_str('TA0',unescape(dom.get_store_str('beispiel_ohne_title')))"> Beispiel ohne Überschrift</option>
+						<option value="dom.set_dom_str('TA0',unescape(dom.get_store_str('beispiele_viele_elemente')))"> Beispiel mit vielen Elementen</option>
+					</select>
+				</p>
+				<textarea id="TA0" cols="90" rows="15" style="clear:left;float:left;width:99%"> {"title":"Balkendiagramm zur Wahl"}, {"name":"CDU", "value": 300, "color":"green" }, {"name":"FDP", "value": 79, "color":"yellow" }, {"name":"SPD", "value": 50, "color":"red" } </textarea>
+			</form>
+			<br>
+			<a class=" button" onclick="welt.drawBalken();" style="width:100px; break: left;" href="javascript:void(0)">Erstelle Balkendiagramm</a>
+			<a class=" button" onclick="welt.drawRing();" style="width:100px; break: left;" href="javascript:void(0)">Erstelle Ringdiagramm</a>
+		</div>
+		<div id="AUSGABE" style="width: 100%; break: both; display: none; height: 500px;">
+			<h2>Ausgabe</h2>
+			<div id="balken" style="float:left; display:inline-block;">
+				<h3>Balkendiagramm</h3>
+				<canvas id="balken_canvas" width="400" height="300"></canvas>
+				<br>
+				<a class=" button" onclick="welt.download_img(this, 'balken_canvas', 'balken_diagramm.png')" style="width:100px; break: left;" href="javascript:void(0)">&nbsp; Save as PNG &nbsp;</a>
+			</div>
+			<div id="ring" style="float:left; display:inline-block;">
+				<h3>Ringdiagramm</h3>
+				<canvas id="ring_canvas" width="400" height="300"></canvas>
+				<br>
+				<a class=" button" onclick="welt.download_img(this, 'ring_canvas', 'ring_diagramm.png')" style="width:100px; break: left;" href="javascript:void(0)">&nbsp; Save as PNG &nbsp;</a>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
