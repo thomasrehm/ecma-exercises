@@ -1,24 +1,151 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
+
 <head>
-<title> App 10 (  )</title>
-<meta charset="UTF-8" />
-<meta name="robots" content="noindex" />
-<link rel="stylesheet" href="../kern/esa.css" />
-<script>
-  window.onload = function () {
-    //if (top["bib"]) { top.bib.dl({ doc: document, id: 'DL1', show_idx: [ ] }); }
-  };
-</script>
+	<title>Markdown to presentation App</title>
+	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex" />
+	<link rel="stylesheet" href="../kern/esa.css" />
+	<script type="text/javascript" src="../kern/js/bib.js"></script>
+    <script type="text/javascript" src="js/my_bib.js"></script>
+
+
+
+
+	<style media="screen">
+		html,
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+        textarea {
+            width: 95%;
+            height: 90%;
+
+        }
+        #edit {
+            width: 40%;
+			height: 80%;
+			clear: none;
+			float: left;
+            display: inline-block;
+            box-sizing: border-box;
+            height: 90%;
+        }
+        #preview {
+            width: 40%;
+			height: 85%;
+            overflow-y: scroll;
+            display: inline-block;
+            box-sizing: border-box;
+			border: 1px solid GRAY;
+        }
+		#head {
+			float: left;
+			display: inline;
+			clear: none;
+		}
+		.erklaerung {
+			width: 20%;
+			clear: none;
+			float: left;
+
+		}
+	</style>
 </head>
+
 <body>
+	<h1 id="headline"> Markdown to presentation App</h1>
+	<div class="erklaerung">
+		<h2>Erklärung Markdown-Flavor Presentation App</h2>
+	<p>In der TextArea kann der Benutzer eine Art Markdown-Flavored Text eingeben, aus welchem dann eine Präsentation generiert wird. Die folgenden Auszeichnungen werden unterstützt:</p>
+	<ul>
+		<li>
+			<code>---</code>
+			<p>Wird zu einem HR-Umbruch und definiert eine neue Section (Folie)</p>
+		</li>
+		<li>
+			<code>#(##..) Text</code>
+			<p>Ausgezeichnet mit einem #-Zeichen wird zu einer h1-Überschrift, analog für ## etc.</p>
+		</li>
+		<li>
+			<code>**fett** und *kursiv*</code>
+			<p>Wörter in doppelten Sternchen werden fett, Wörter in einzelnen Sternchen werden kursiv</p>
+		</li>
+		<li>
+			<code>> Zitat</code>
+			<p>Ein Größer-Als-Zeichen läutet ein Blockquote ein.</p>
+		</li>
+		<li>
+			<code>+ ungeordnete Liste, - geordnete Liste</code>
+			<p>Ungeordnete Liste lassen sich mit einem + am Anfang deklarieren, geordnete mit einem -. Ebenen in Listen lassen sich mit mehreren + oder - realisieren.</p>
+		</li>
+		<li>
+			<p>Code kann einfach in Code-Tags geschrieben werden</p>
+		</li>
+	</ul>
 
+	</div>
+	<div id="edit">
+		<br>
+        <a href="javascript:void(0)" class="button" onclick="mdReg.convert();">Create Preview</a>
+		<a href="javascript:void(0)" class="button" onclick="mdReg.makeSite();">Present</a>
+        <a href="javascript:void(0)" class="button" onclick="mdReg.saveToLocalstorage();alert('Saved to LocalStorage! Will be restored if you continue to work after reloading/closing.')">Save Raw</a>
+        <br><br>
+        <textarea name="input" id="mdInput" height="80%">
+# Example Presentation
 
-<h1> ... App 10
-</h1>
+This is a **simple paragraph** that maybe *somebody* will read.
 
-<p class="float_right rot">IN BEARBEITUNG</p>
+## This a h2 subheadline
 
+with a simple code block
 
+<code>
+if(code === true){
+	console.log('hallo welt');
+	//thats it
+}
+</code>
+
+and a blockquote:
+
+> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+
+---
+# This is the second slide
+
+This is a **simple paragraph** that maybe *somebody* will read.
+
+## This is also a subheadline
+
++ this is an ordered list
++ with some subpoints
+++ and some sub-sub points
+++ and another one
++ and a top-level point
+
+- this is an unordered list
+- with some subpoints
+-- and some sub-sub points
+-- and another one
+- and a top-level point
+</textarea>
+</div>
+<br>
+    <p id="head">Simple preview (with standard styles):</p>
+    <div id="preview">
+
+    </div>
+
+	<script type="text/javascript" src="js/mdReg.js"></script>
+	<script>
+		window.onload = function() {
+			mdReg.getFromLocalstorage();
+		};
+
+	</script>
 </body>
+
 </html>

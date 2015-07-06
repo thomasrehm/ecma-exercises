@@ -86,7 +86,6 @@ var localnotes = function (win) {
 			console.log(msg);
 			return;
 		}
-
 		var output = e2e.encrypt_plain(f.input, f.key, f.caesar, f.tea);
 		//var output = f.input;
 

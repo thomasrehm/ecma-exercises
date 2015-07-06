@@ -1,0 +1,104 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Presentation</title>
+	<link rel="stylesheet" href="app10.css"> </head>
+
+<body>
+	<div id="prevBtn">&lt;</div>
+	<section>
+		<p></p>
+		<h1>Example Presentation</h1>
+		<p></p>
+		<p>This is a <b>simple paragraph</b> that maybe
+			<em>somebody</em> will read.</p>
+		<p></p>
+		<h2>This a h2 subheadline</h2>
+		<p></p>
+		<p>with a simple code block</p>
+		<p>
+			<code> if(code === true){ console.log('hallo welt'); //thats it } </code>
+		</p>
+		<p>and a blockquote:</p>
+		<blockquote>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
+			quis, sem. Nulla consequat massa quis enim.</blockquote>
+		<p></p>
+	</section>
+	<hr>
+	<section>
+		<h1>This is the second slide</h1>
+		<p></p>
+		<p>This is a <b>simple paragraph</b> that maybe
+			<em>somebody</em> will read.</p>
+		<p></p>
+		<h2>This is also a subheadline</h2>
+		<p></p>
+		<p></p>
+		<ol>
+			<li>this is an ordered list</li>
+			<li>with some subpoints</li>
+			<ol>
+				<li>and some sub-sub points</li>
+				<li>and another one</li>
+			</ol>
+			<li>and a top-level point</li>
+		</ol>
+		<p></p>
+		<p></p>
+		<ul>
+			<li>this is an unordered list</li>
+			<li>with some subpoints</li>
+			<ul>
+				<li>and some sub-sub points</li>
+				<li>and another one</li>
+			</ul>
+			<li>and a top-level point</li>
+		</ul>
+		<p></p>
+	</section>
+	<div id="nextBtn">&gt;</div>
+	<script type="text/javascript">
+		var slide = 0;
+		var section = document.querySelectorAll('section'),
+			prevBtn = document.getElementById('prevBtn'),
+			nextBtn = document.getElementById('nextBtn');
+		function showHideBtn(slide) {
+			console.log(section.length);
+			if (slide === 0) {
+				prevBtn.style.visibility = 'hidden';
+				nextBtn.style.visibility = '';
+			} else {prevBtn.style.visibility = '';}
+			if (slide != 0 && section.length-1 == slide){
+				prevBtn.style.visibility = '';
+				nextBtn.style.visibility = 'hidden';
+
+			}
+		};
+		if (slide == 0) {
+			prevBtn.style.visibility = 'hidden';
+		} else {
+			prevBtn.style.visibility = 'display';
+
+		}
+		prevBtn.onclick = function() {
+			changeSlide(-1);
+		};
+		nextBtn.onclick = function() {
+			changeSlide(1);
+		};
+
+		function changeSlide(n) {
+			section[slide].style.display = 'none';
+
+			slide = slide + n;
+			section[slide].style.display = 'block';
+			console.log(slide);
+			showHideBtn(slide);
+
+
+		}
+	</script>
+</body>
+
+</html>
